@@ -1,0 +1,6 @@
+@extends('layouts.dashboard')
+@section('title', 'My Feedback')
+@section('content')
+<div class="page-heading"><div><p class="eyebrow">Guidance</p><h1>Receive feedback</h1><p class="lead">Read messages from instructors and administrators about your work.</p></div></div>
+<section class="panel"><div class="list">@forelse ($feedback as $entry)<div class="list-item"><div class="list-copy"><div class="list-title">{{ $entry->author?->name ?? 'Reviewer' }} · {{ $entry->created_at->format('M j, Y') }}</div><div class="list-subtitle">@if ($entry->codeSubmission)<a href="{{ route('student.submissions.show', $entry->codeSubmission) }}">{{ $entry->codeSubmission->exercise?->title ?? 'Code submission' }}</a>@elseif ($entry->attempt){{ $entry->attempt->assessment?->title ?? 'Assessment' }}@else General feedback @endif</div>@if ($entry->error_message)<p style="margin:9px 0 0;font-size:13px;line-height:1.7"><strong>@if ($entry->markedErrorLines())Problem {{ count($entry->markedErrorLines()) === 1 ? 'line' : 'lines' }} {{ implode(', ', $entry->markedErrorLines()) }}: @endif</strong>{{ $entry->error_message }}</p>@endif<p style="margin:9px 0 0;font-size:13px;line-height:1.7">{{ $entry->message }}</p></div></div>@empty<div class="empty">No feedback received yet.</div>@endforelse</div>@include('admin.partials.pagination', ['paginator' => $feedback])</section>
+@endsection
