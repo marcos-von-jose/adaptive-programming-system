@@ -7,9 +7,9 @@
         <form class="toolbar" method="GET">
             <div class="filters"><input class="field" name="search" value="{{ request('search') }}" placeholder="Search name or email"><select class="select" name="role"><option value="">All roles</option>@foreach ($roles as $role)<option value="{{ $role->id }}" @selected(request('role') == $role->id)>{{ $role->name }}</option>@endforeach</select><button class="button secondary" type="submit">Filter</button></div>
         </form>
-        <div class="table-wrap"><table><thead><tr><th>Photo</th><th>User</th><th>Role</th><th>Joined</th><th style="text-align:right">Actions</th></tr></thead><tbody>
+        <div class="table-wrap"><table class="user-management-table"><thead><tr><th>Photo</th><th>User</th><th>Role</th><th>Joined</th><th style="text-align:right">Actions</th></tr></thead><tbody>
             @forelse ($users as $managedUser)
-                <tr>
+                <tr class="user-management-row">
                     <td class="user-photo-cell">
                         <span class="avatar">
                             @if ($managedUser->profile_photo_path)
@@ -19,12 +19,12 @@
                             @endif
                         </span>
                     </td>
-                    <td><div class="cell-title">{{ $managedUser->name }}</div><div class="cell-subtitle">{{ $managedUser->email }}</div></td>
-                    <td><span class="badge">{{ $managedUser->role?->name ?? 'No role' }}</span></td>
-                    <td>{{ $managedUser->created_at?->format('M j, Y') }}</td>
-                    <td><div class="actions"><button class="button secondary small" type="button" data-view-user data-user-id="{{ $managedUser->id }}" data-user-name="{{ $managedUser->name }}" data-user-email="{{ $managedUser->email }}" data-user-role="{{ $managedUser->role?->name ?? 'No role' }}" data-user-joined="{{ $managedUser->created_at?->format('M j, Y g:i A') ?? 'Unknown' }}" data-user-email-status="{{ $managedUser->email_verified_at ? 'Verified' : 'Not verified' }}" data-user-two-factor="{{ $managedUser->two_factor_confirmed_at ? 'Enabled' : ($managedUser->two_factor_required ? 'Required, not configured' : 'Not enabled') }}" @if ($managedUser->profile_photo_path) data-user-photo="{{ route('users.photo', $managedUser) }}" @endif>View</button><a class="button secondary small" href="{{ route('admin.users.edit', $managedUser) }}" data-user-modal="user-edit-template-{{ $managedUser->id }}" data-user-modal-title="Edit user" data-user-modal-confirm="Save changes">Edit</a><form method="POST" action="{{ route('admin.users.destroy', $managedUser) }}" data-confirm-delete-user data-user-name="{{ $managedUser->name }}">@csrf @method('DELETE')<button class="button danger small" type="submit">Delete</button></form></div></td>
+                    <td class="user-info-cell"><div class="cell-title">{{ $managedUser->name }}</div><div class="cell-subtitle">{{ $managedUser->email }}</div></td>
+                    <td class="user-role-cell" data-label="Role"><span class="badge">{{ $managedUser->role?->name ?? 'No role' }}</span></td>
+                    <td class="user-joined-cell" data-label="Joined">{{ $managedUser->created_at?->format('M j, Y') }}</td>
+                    <td class="user-actions-cell"><div class="actions"><button class="button secondary small" type="button" data-view-user data-user-id="{{ $managedUser->id }}" data-user-name="{{ $managedUser->name }}" data-user-email="{{ $managedUser->email }}" data-user-role="{{ $managedUser->role?->name ?? 'No role' }}" data-user-joined="{{ $managedUser->created_at?->format('M j, Y g:i A') ?? 'Unknown' }}" data-user-email-status="{{ $managedUser->email_verified_at ? 'Verified' : 'Not verified' }}" data-user-two-factor="{{ $managedUser->two_factor_confirmed_at ? 'Enabled' : ($managedUser->two_factor_required ? 'Required, not configured' : 'Not enabled') }}" @if ($managedUser->profile_photo_path) data-user-photo="{{ route('users.photo', $managedUser) }}" @endif>View</button><a class="button secondary small" href="{{ route('admin.users.edit', $managedUser) }}" data-user-modal="user-edit-template-{{ $managedUser->id }}" data-user-modal-title="Edit user" data-user-modal-confirm="Save changes">Edit</a><form method="POST" action="{{ route('admin.users.destroy', $managedUser) }}" data-confirm-delete-user data-user-name="{{ $managedUser->name }}">@csrf @method('DELETE')<button class="button danger small" type="submit">Delete</button></form></div></td>
                 </tr>
-            @empty <tr><td colspan="5"><div class="empty">No users matched your search.</div></td></tr> @endforelse
+            @empty <tr class="user-empty-row"><td colspan="5"><div class="empty">No users matched your search.</div></td></tr> @endforelse
         </tbody></table></div>
         @include('admin.partials.pagination', ['paginator' => $users])
     </section>

@@ -11,6 +11,23 @@ const dialogColors = () => {
     };
 };
 
+// The edit form lives inside a SweetAlert2 modal and is inserted after the
+// initial page load, so delegate clicks from the document.
+document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-admin-toggle-password]');
+    if (!button) return;
+
+    const input = button.closest('.admin-password-field')?.querySelector('input');
+    if (!input) return;
+
+    const showing = input.type === 'password';
+    const fieldName = input.name === 'password_confirmation' ? 'confirm password' : 'password';
+    input.type = showing ? 'text' : 'password';
+    button.setAttribute('aria-pressed', String(showing));
+    button.setAttribute('aria-label', `${showing ? 'Hide' : 'Show'} ${fieldName}`);
+    button.title = `${showing ? 'Hide' : 'Show'} ${fieldName}`;
+});
+
 document.querySelectorAll('[data-view-user]').forEach((button) => {
     button.addEventListener('click', () => {
         const details = document.createElement('dl');
@@ -82,7 +99,7 @@ document.querySelectorAll('[data-user-modal]').forEach((link) => {
         const result = await Swal.fire({
             title: link.dataset.userModalTitle,
             html: content,
-            width: 'min(680px, 95vw)',
+            width: 'min(760px, 95vw)',
             customClass: { htmlContainer: 'user-modal-content' },
             showCancelButton: true,
             confirmButtonText: link.dataset.userModalConfirm,
