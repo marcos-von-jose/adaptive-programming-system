@@ -5,6 +5,7 @@ import './theme';
 import './admin-users';
 import './student-activity-controls';
 import './student-fullscreen';
+import './responsive-tables';
 
 // Browsers may restore a protected page from the back-forward cache after
 // logout. Reload it so Laravel can redirect the now-guest session to login.

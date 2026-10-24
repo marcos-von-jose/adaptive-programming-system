@@ -329,6 +329,19 @@
         @media (max-width: 700px) { .topbar-date { display: none; } }
         @media (max-width: 700px) { .user-modal-content .form-grid, .user-password-grid { grid-template-columns: minmax(0, 1fr); } }
         @media (max-width: 700px) {
+            .table-wrap { overflow: visible; }
+            .responsive-card-table, .responsive-card-table tbody { display: block; width: 100%; }
+            .responsive-card-table thead { display: none; }
+            .responsive-card-table tbody { display: grid; gap: 12px; }
+            .responsive-card-table tbody tr:not(.responsive-table-empty) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; margin: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+            .responsive-card-table tbody tr:not(.responsive-table-empty) td { display: grid; grid-template-columns: minmax(84px, .65fr) minmax(0, 1.35fr); align-items: start; gap: 12px; min-width: 0; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 12px; overflow-wrap: anywhere; }
+            .responsive-card-table tbody tr:not(.responsive-table-empty) td:last-child { border-bottom: 0; }
+            .responsive-card-table tbody tr:not(.responsive-table-empty) td::before { content: attr(data-label); color: var(--muted); font-size: 10px; font-weight: 750; line-height: 1.5; text-transform: uppercase; }
+            .responsive-card-table tbody tr:not(.responsive-table-empty) td.responsive-table-actions { display: block; padding-top: 12px; }
+            .responsive-card-table tbody tr:not(.responsive-table-empty) td.responsive-table-actions::before { display: block; margin-bottom: 8px; }
+            .responsive-card-table tbody tr:not(.responsive-table-empty) td .actions { justify-content: flex-start; flex-wrap: wrap; }
+            .responsive-card-table tbody tr.responsive-table-empty { display: block; }
+            .responsive-card-table tbody tr.responsive-table-empty td { display: block; padding: 12px; }
             .user-management-table, .user-management-table tbody { display: block; width: 100%; }
             .user-management-table thead { display: none; }
             .user-management-table tbody { display: grid; gap: 12px; }
